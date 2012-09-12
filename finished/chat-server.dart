@@ -64,10 +64,10 @@ class ChatHandler {
       time('send to isolate', () => log.log(message));
     };
     
-    conn.onError = (e) {
-      print("problem w/ conn");
-      connections.remove(conn); // onClosed isn't being called ??
-    };
+//    conn.onError = (e) {
+//      print("problem w/ conn");
+//      connections.remove(conn); // onClosed isn't being called ??
+//    };
   }
 }
 
