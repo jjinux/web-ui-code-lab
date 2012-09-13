@@ -41,31 +41,27 @@ class ChatConnection {
     chatWindow.displayNotice("Connecting to Web socket");
     webSocket = new WebSocket(url);
     
-    webSocket.on.open.add((e) {
-      chatWindow.displayNotice('Connected');
-    });
-    
-    webSocket.on.close.add((e) {
+    scheduleReconnect() {
       chatWindow.displayNotice('web socket closed, retrying in $retrySeconds seconds');
       if (!encounteredError) {
         window.setTimeout(() => _init(retrySeconds*2), 1000*retrySeconds);
       }
       encounteredError = true;
+    }
+    
+    webSocket.on.open.add((e) {
+      chatWindow.displayNotice('Connected');
     });
     
-    webSocket.on.error.add((e) {
-      chatWindow.displayNotice("Error connecting to ws");
-      if (!encounteredError) {
-        window.setTimeout(() => _init(retrySeconds*2), 1000*retrySeconds);
-      }
-      encounteredError = true;
-    });
+    webSocket.on.close.add((e) => scheduleReconnect());
+    webSocket.on.error.add((e) => scheduleReconnect());
     
     webSocket.on.message.add((MessageEvent e) {
       print('received message ${e.data}');
       _receivedEncodedMessage(e.data);
     });
   }
+
 }
 
 abstract class View<T> {
