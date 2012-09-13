@@ -69,7 +69,7 @@ class MessageInput extends View<InputElement> {
     elem.value = '';
   }
   
-  String get message() => elem.value;
+  String get message => elem.value;
 
 }
 
@@ -88,7 +88,7 @@ class UsernameInput extends View<InputElement> {
     }
   }
   
-  String get username() => elem.value;
+  String get username => elem.value;
 }
 
 class ChatWindow extends View<TextAreaElement> {

@@ -66,7 +66,7 @@ class MessageInput extends View<InputElement> {
     elem.value = '';
   }
   
-  String get message() => elem.value;
+  String get message => elem.value;
 
 }
 
@@ -83,7 +83,7 @@ class UsernameInput extends View<InputElement> {
     // is empty
   }
   
-  String get username() => elem.value;
+  String get username => elem.value;
 }
 
 // Step 3, define the ChatWindow class
