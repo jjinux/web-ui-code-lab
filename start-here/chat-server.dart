@@ -1,15 +1,15 @@
-#library('chat-server');
+library chatserver;
 
-#import('dart:io');
-#import('dart:isolate');
-#import('file-logger.dart', prefix: 'log');
-#import('server-utils.dart');
+import 'dart:io';
+import 'dart:isolate';
+import 'file-logger.dart' as log;
+import 'server-utils.dart';
 
 class StaticFileHandler {
   final String basePath;
-  
+
   StaticFileHandler(this.basePath);
-  
+
   _send404(HttpResponse response) {
     response.statusCode = HttpStatus.NOT_FOUND;
     response.outputStream.close();
@@ -31,28 +31,28 @@ class StaticFileHandler {
       } else {
         _send404(response);
       }
-    }); 
+    });
   }
 }
 
 class ChatHandler {
-  
+
   Set<WebSocketConnection> connections;
-  
+
   ChatHandler(String basePath) : connections = new Set<WebSocketConnection>() {
     log.initLogging('${basePath}/chat-log.txt');
   }
-  
+
   // closures!
   onOpen(WebSocketConnection conn) {
     print('new ws conn');
     connections.add(conn);
-    
+
     conn.onClosed = (int status, String reason) {
       print('conn is closed');
       connections.remove(conn);
     };
-    
+
     conn.onMessage = (message) {
       print('new ws msg: $message');
       connections.forEach((connection) {
@@ -70,7 +70,7 @@ runServer(String basePath, int port) {
   HttpServer server = new HttpServer();
   WebSocketHandler wsHandler = new WebSocketHandler();
   wsHandler.onOpen = new ChatHandler(basePath).onOpen;
-  
+
   server.defaultRequestHandler = new StaticFileHandler(basePath).onRequest;
   server.addRequestHandler((req) => req.path == "/ws", wsHandler.onRequest);
   server.onError = (error) => print(error);
