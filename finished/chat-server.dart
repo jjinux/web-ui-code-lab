@@ -37,25 +37,25 @@ class StaticFileHandler {
 
 class ChatHandler {
 
-  Set<WebSocketConnection> connections;
+  Set<WebSocketConnection> webSocketConnections;
 
-  ChatHandler(String basePath) : connections = new Set<WebSocketConnection>() {
+  ChatHandler(String basePath) : webSocketConnections = new Set<WebSocketConnection>() {
     log.initLogging('${basePath}/chat-log.txt');
   }
 
   // closures!
   onOpen(WebSocketConnection conn) {
     print('new ws conn');
-    connections.add(conn);
+    webSocketConnections.add(conn);
 
     conn.onClosed = (int status, String reason) {
       print('conn is closed');
-      connections.remove(conn);
+      webSocketConnections.remove(conn);
     };
 
     conn.onMessage = (message) {
       print('new ws msg: $message');
-      connections.forEach((connection) {
+      webSocketConnections.forEach((connection) {
         if (conn != connection) {
           print('queued msg to be sent');
           queue(() => connection.send(message));

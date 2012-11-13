@@ -81,7 +81,7 @@ class UsernameInput extends View<InputElement> {
   }
 
   _onUsernameChange() {
-    if (!elem.value.isEmpty()) {
+    if (!elem.value.isEmpty) {
       messageInput.enable();
     } else {
       messageInput.disable();
