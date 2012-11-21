@@ -2,8 +2,8 @@ library chatserver;
 
 import 'dart:io';
 import 'dart:isolate';
-import 'file-logger.dart' as log;
-import 'server-utils.dart';
+import 'package:dart_chat/file_logger.dart' as log;
+import 'package:dart_chat/server_utils.dart';
 
 class StaticFileHandler {
   final String basePath;
@@ -40,7 +40,7 @@ class ChatHandler {
   Set<WebSocketConnection> webSocketConnections;
 
   ChatHandler(String basePath) : webSocketConnections = new Set<WebSocketConnection>() {
-    log.initLogging('${basePath}/chat-log.txt');
+    log.initLogging('${basePath}/chat_log.txt');
   }
 
   // closures!
@@ -81,5 +81,5 @@ runServer(String basePath, int port) {
 main() {
   var script = new File(new Options().script);
   var directory = script.directorySync();
-  runServer("${directory.path}/client", 1337);
+  runServer("${directory.path}/../web", 1337);
 }

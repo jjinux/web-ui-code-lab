@@ -1,4 +1,4 @@
-library serverutils;
+library server_utils;
 
 import 'dart:isolate';
 

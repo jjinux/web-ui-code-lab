@@ -1,7 +1,7 @@
-library filelogger;
+library file_logger;
 import 'dart:isolate';
 import 'dart:io';
-import 'server-utils.dart';
+import 'server_utils.dart';
 
 startLogging() {
   print('started logger');
