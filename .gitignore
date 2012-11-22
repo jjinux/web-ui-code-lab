@@ -1,4 +1,12 @@
-chat-log.txt
+# Dart Editor
 .children
 .project
+
+# Pub
 packages
+
+# dart_chat
+chat-log.txt
+
+# Web Components
+out
