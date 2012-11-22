@@ -1,0 +1,17 @@
+<html><body>
+  <element name="x-chat-window" constructor="ChatWindowComponent" extends="div">
+    <template>
+      <div>
+        <textarea rows="10" class="chat-window" disabled>{{chatWindowText}}</textarea>
+      </div>
+    </template>
+    
+    <script type="application/dart">
+      import 'package:web_components/web_components.dart';
+
+      class ChatWindowComponent extends WebComponent {
+        String chatWindowText = "web component connected\n";
+      }
+    </script>
+  </element>
+</body></html>
