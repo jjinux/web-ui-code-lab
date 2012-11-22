@@ -82,7 +82,7 @@ runServer({String basePath,
 main() {
   var script = new File(new Options().script);
   var directory = script.directorySync();
-  runServer(basePath: "${directory.path}/../web",
-            logFile: "${directory.path}/../chat.log",
-            port: 1337);
+  var basePath = directory.path.replaceFirst(new RegExp(r"bin$"), "web");  // No .. allowed
+  var logFile = "${directory.path}/../chat.log";
+  runServer(basePath: basePath, logFile: logFile, port: 1337);
 }
