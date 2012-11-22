@@ -15,7 +15,6 @@ class StaticFileHandler {
     response.outputStream.close();
   }
 
-  // TODO: etags, last-modified-since support
   onRequest(HttpRequest request, HttpResponse response) {
     final String path = request.path == '/' ? '/index.html' : request.path;
     final File file = new File('${basePath}${path}');
@@ -43,7 +42,6 @@ class ChatHandler {
     log.initLogging('${basePath}/chat_log.txt');
   }
 
-  // closures!
   onOpen(WebSocketConnection conn) {
     print('new ws conn');
     webSocketConnections.add(conn);
@@ -81,5 +79,5 @@ runServer(String basePath, int port) {
 main() {
   var script = new File(new Options().script);
   var directory = script.directorySync();
-  runServer("${directory.path}/../web", 1337);
+  runServer("${directory.path}/../web/out", 1337);
 }
