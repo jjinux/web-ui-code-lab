@@ -16,7 +16,7 @@ class StaticFileHandler {
   }
 
   onRequest(HttpRequest request, HttpResponse response) {
-    final String path = request.path == '/' ? '/index.html' : request.path;
+    final String path = request.path == '/' ? '/out/index.html' : request.path;
     final File file = new File('${basePath}${path}');
     file.exists().then((found) {
       if (found) {
@@ -82,7 +82,7 @@ runServer({String basePath,
 main() {
   var script = new File(new Options().script);
   var directory = script.directorySync();
-  runServer(basePath: "${directory.path}/../web/out",
+  runServer(basePath: "${directory.path}/../web",
             logFile: "${directory.path}/../chat.log",
             port: 1337);
 }
