@@ -38,8 +38,9 @@ class ChatHandler {
 
   Set<WebSocketConnection> webSocketConnections;
 
-  ChatHandler(String basePath) : webSocketConnections = new Set<WebSocketConnection>() {
-    log.initLogging('${basePath}/chat_log.txt');
+  ChatHandler({String basePath, String logFile}) :
+      webSocketConnections = new Set<WebSocketConnection>() {
+    log.initLogging(logFile);
   }
 
   onOpen(WebSocketConnection conn) {
@@ -64,10 +65,12 @@ class ChatHandler {
   }
 }
 
-runServer(String basePath, int port) {
+runServer({String basePath,
+           String logFile,
+           int port}) {
   HttpServer server = new HttpServer();
   WebSocketHandler wsHandler = new WebSocketHandler();
-  wsHandler.onOpen = new ChatHandler(basePath).onOpen;
+  wsHandler.onOpen = new ChatHandler(basePath: basePath, logFile: logFile).onOpen;
 
   server.defaultRequestHandler = new StaticFileHandler(basePath).onRequest;
   server.addRequestHandler((req) => req.path == "/ws", wsHandler.onRequest);
@@ -79,5 +82,7 @@ runServer(String basePath, int port) {
 main() {
   var script = new File(new Options().script);
   var directory = script.directorySync();
-  runServer("${directory.path}/../web/out", 1337);
+  runServer(basePath: "${directory.path}/../web/out",
+            logFile: "${directory.path}/../chat.log",
+            port: 1337);
 }
