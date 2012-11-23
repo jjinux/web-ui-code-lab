@@ -22,7 +22,7 @@ class ChatConnection {
   _receivedEncodedMessage(String encodedMessage) {
     Map message = JSON.parse(encodedMessage);
     if (message['f'] != null) {
-      app.chatWindow.displayMessage(message['m'], message['f']);
+      app.chatWindow.displayMessage(message['f'], message['m']);
     }
   }
 
