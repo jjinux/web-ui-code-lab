@@ -8,12 +8,11 @@
     
     <script type="application/dart">
       import 'package:web_components/web_components.dart';
-      import 'package:htmlescape/htmlescape.dart';
       
       class ChatWindowComponent extends WebComponent {
         StringBuffer chatWindowText = new StringBuffer();
         
-        displayMessage(String msg, String from) {
+        displayMessage(String from, String msg) {
           _display("$from: $msg\n");
         }
       
@@ -22,7 +21,7 @@
         }
       
         _display(String str) {
-          chatWindowText.add(htmlEscape(str));
+          chatWindowText.add(str);
           
           // You have to call dispatch whenever Web Component data changes
           // and it's not the result of a user event. That happens a lot
