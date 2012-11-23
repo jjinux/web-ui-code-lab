@@ -29,3 +29,9 @@ class Application {
     });   
   }
 }
+
+Application _app;
+get app {
+  if (_app == null) _app = new Application();
+  return _app;
+}
