@@ -23,6 +23,11 @@
       
         _display(String str) {
           chatWindowText.add(htmlEscape(str));
+          
+          // You have to call dispatch whenever Web Component data changes
+          // and it's not the result of a user event. That happens a lot
+          // for this method.
+          dispatch();
         }
       }
     </script>
