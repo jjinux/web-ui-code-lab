@@ -18,7 +18,24 @@
     <x-username-input id="username-input"></x-username-input>
     <x-message-input id="message-input"></x-message-input>
     
-    <script type="application/dart">main() {}</script>
+    <script type="application/dart">
+      import 'package:web_components/web_components.dart';
+      import 'dart:html';
+      import 'dart:isolate' show Timer;
+      
+      main() {
+        // The Web Components aren't ready immediately.
+        new Timer(0, (timer) {
+        
+          // xtag is how you get to the Dart object.
+          query("#chat-window").xtag.displayNotice("web component connected");
+          
+          // This is only necessary when you change the value of some Web
+          // Component data not as the result of a user event.
+          dispatch(); 
+        });
+      }
+    </script>
     <script src="dart.js"></script>
   </body>
 </html>

@@ -2,15 +2,28 @@
   <element name="x-chat-window" constructor="ChatWindowComponent" extends="div">
     <template>
       <div>
-        <textarea rows="10" class="chat-window" disabled>{{chatWindowText}}</textarea>
+        <textarea rows="10" class="chat-window" disabled>{{chatWindowText.toString()}}</textarea>
       </div>
     </template>
     
     <script type="application/dart">
       import 'package:web_components/web_components.dart';
-
+      import 'package:htmlescape/htmlescape.dart';
+      
       class ChatWindowComponent extends WebComponent {
-        String chatWindowText = "web component connected\n";
+        StringBuffer chatWindowText = new StringBuffer();
+        
+        displayMessage(String msg, String from) {
+          _display("$from: $msg\n");
+        }
+      
+        displayNotice(String notice) {
+          _display("[system]: $notice\n");
+        }
+      
+        _display(String str) {
+          chatWindowText.add(htmlEscape(str));
+        }
       }
     </script>
   </element>
