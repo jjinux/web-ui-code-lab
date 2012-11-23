@@ -3,3 +3,5 @@ description: This is a chat app written in Dart using Web Components
 
 dependencies:
   web_components: any
+  htmlescape:
+    sdk: htmlescape
