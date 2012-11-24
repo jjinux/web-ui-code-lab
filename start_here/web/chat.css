@@ -1,0 +1,30 @@
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+p {
+  color: #333;
+}
+
+textarea {
+  margin: 0;
+}
+
+label {
+  display: block;
+  width: 20em;
+  margin-top: 5px;
+}
+
+h1 img {
+  margin-right: 0.5em;
+}
+
+.chat-window, .chat-message {
+  width: 100%;
+}
