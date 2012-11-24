@@ -3,14 +3,28 @@
     <template>
       <div>
         <label for="username">Username:</label>
-        <input id="username" name="username" type="text">
+        <input id="username" name="username" type="text"
+                data-bind="value:username"
+                data-action="change:onUsernameChange">
       </div>
     </template>
     
     <script type="application/dart">
+      import 'dart:html';
       import 'package:web_components/web_components.dart';
+      import 'application.dart';
 
-      class UsernameInputComponent extends WebComponent {}
+      class UsernameInputComponent extends WebComponent {
+        String username = "username";
+
+        onUsernameChange(Event e) {
+          if (!username.isEmpty) {
+            app.messageInput.enable();
+          } else {
+            app.messageInput.disable();
+          }
+        }
+      }
     </script>
   </element>
 </body></html>
