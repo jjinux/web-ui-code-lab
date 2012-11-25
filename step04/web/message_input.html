@@ -1,0 +1,44 @@
+<html><body>
+  <element name="x-message-input" constructor="MessageInputComponent" extends="div">
+    <template>
+      <div>
+        <label for="message">Message:</label>
+        <input id="message" class="chat-message" name="message" type="text" disabled
+               data-bind="value:message"
+               data-action="change:sendMessage">
+      </div>
+    </template>
+    
+    <script type="application/dart">
+      import 'dart:html';
+      import 'package:web_components/web_components.dart';
+      import 'application.dart';
+
+      class MessageInputComponent extends WebComponent {
+        String message = "enter message...";
+      
+        disable() {
+          messageElement.disabled = true;
+          message = 'Enter username';
+        }
+      
+        enable() {
+          messageElement.disabled = false;
+          message = '';
+        }
+
+        sendMessage(Event e) {
+          app.chatConnection.send(app.usernameInput.username, message);
+          app.chatWindow.displayMessage(app.usernameInput.username, message);
+          message = '';
+        }
+
+        InputElement _messageElement;
+        get messageElement {
+          if (_messageElement == null) _messageElement = query("#message");
+          return _messageElement;
+        }
+      }
+    </script>
+  </element>
+</body></html>
