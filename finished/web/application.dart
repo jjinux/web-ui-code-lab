@@ -8,30 +8,22 @@ import 'out/chat_window.html.dart';
 import 'out/username_input.html.dart';
 import 'out/message_input.html.dart';
 
-class Application {
-  const connectionUrl = "ws://127.0.0.1:1337/ws";
-  ChatConnection chatConnection;
-  ChatWindowComponent chatWindow;
-  UsernameInputComponent usernameInput;
-  MessageInputComponent messageInput;
+const connectionUrl = "ws://127.0.0.1:1337/ws";
+ChatConnection chatConnection;
+ChatWindowComponent chatWindow;
+UsernameInputComponent usernameInput;
+MessageInputComponent messageInput;
 
-  Application() {
-    // The Web Components aren't ready immediately in index.html's main.
-    new Timer(0, (timer) {
-      
-      // xtag is how you get to the Dart object.
-      chatWindow = query("#chat-window").xtag;
-      usernameInput = query("#username-input").xtag;
-      messageInput = query("#message-input").xtag;
+init() {
+  // The Web Components aren't ready immediately in index.html's main.
+  new Timer(0, (timer) {
+    
+    // xtag is how you get to the Dart object.
+    chatWindow = query("#chat-window").xtag;
+    usernameInput = query("#username-input").xtag;
+    messageInput = query("#message-input").xtag;
 
-      chatWindow.displayNotice("web component connected");
-      chatConnection = new ChatConnection(this, connectionUrl);
-    });   
-  }
-}
-
-Application _app;
-get app {
-  if (_app == null) _app = new Application();
-  return _app;
+    chatWindow.displayNotice("web component connected");
+    chatConnection = new ChatConnection(connectionUrl);
+  });   
 }

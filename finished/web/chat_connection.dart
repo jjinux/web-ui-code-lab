@@ -3,14 +3,13 @@ library chat_connection;
 import 'dart:html';
 import 'dart:json';
 import 'dart:isolate' show Timer;
-import 'application.dart';
+import 'application.dart' as app;
 
 class ChatConnection {
-  Application app;
   WebSocket webSocket;
   String url;
 
-  ChatConnection(this.app, this.url) {
+  ChatConnection(this.url) {
     _init();
   }
 
