@@ -25,5 +25,7 @@ init() {
 
     chatWindow.displayNotice("web component connected");
     chatConnection = new ChatConnection(connectionUrl);
+    
+    dispatch();
   });   
 }
