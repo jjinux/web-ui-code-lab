@@ -2,4 +2,4 @@ name: dart_chat
 description: This is a chat app written in Dart using Web Components
 
 dependencies:
-  web_components: any
+  web_components: ">=0.2.6 <0.2.7"
