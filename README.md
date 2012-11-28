@@ -7,3 +7,5 @@ codelab first.
 
 This was originally built for a workshop to be held at jscamp.asia in November
 2012.
+
+See dart_web_components_codelab.pdf for more information.
