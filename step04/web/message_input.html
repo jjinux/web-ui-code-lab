@@ -1,11 +1,13 @@
+<!DOCTYPE html>
+
 <html><body>
   <element name="x-message-input" constructor="MessageInputComponent" extends="div">
     <template>
       <div>
         <label for="message">Message:</label>
         <input id="message" class="chat-message" name="message" type="text" disabled
-               data-bind="value:message"
-               data-action="change:sendMessage">
+               bind-value="message"
+               on-change="sendMessage($event)">
       </div>
     </template>
     

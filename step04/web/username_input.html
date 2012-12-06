@@ -1,11 +1,13 @@
+<!DOCTYPE html>
+
 <html><body>
   <element name="x-username-input" constructor="UsernameInputComponent" extends="div">
     <template>
       <div>
         <label for="username">Username:</label>
         <input id="username" name="username" type="text"
-                data-bind="value:username"
-                data-action="change:onUsernameChange">
+               bind-value="username"
+               on-change="onUsernameChange($event)">
       </div>
     </template>
     
