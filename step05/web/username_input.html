@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html><body>
+  <element name="x-username-input" constructor="UsernameInputComponent" extends="div">
+    <template>
+      <div>
+        <label for="username">Username:</label>
+        <input id="username" name="username" type="text" bind-value="username">
+      </div>
+    </template>
+    
+    <script type="application/dart">
+      import 'package:web_components/web_components.dart';
+
+      class UsernameInputComponent extends WebComponent {
+        String username = "";
+      }
+    </script>
+  </element>
+</body></html>
