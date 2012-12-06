@@ -2,8 +2,8 @@ library chatserver;
 
 import 'dart:io';
 import 'dart:isolate';
-import 'package:dart_chat/file_logger.dart' as log;
-import 'package:dart_chat/server_utils.dart';
+import '../lib/file_logger.dart' as log;
+import '../lib/server_utils.dart';
 
 class StaticFileHandler {
   final String basePath;
