@@ -2,7 +2,7 @@ library application;
 
 import 'dart:html';
 import 'dart:isolate' show Timer;
-import 'package:web_components/web_components.dart';
+import 'package:web_ui/web_ui.dart';
 import 'chat_connection.dart';
 import 'out/chat_window.html.dart';
 import 'out/username_input.html.dart';
