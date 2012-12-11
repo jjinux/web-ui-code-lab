@@ -1,5 +1,5 @@
 name: dart_chat
-description: This is a chat app written in Dart using Web Components
+description: This is a chat app written in Dart using the Dart Web UI package
 
 dependencies:
   web_ui: ">=0.2.8 <0.2.9"
