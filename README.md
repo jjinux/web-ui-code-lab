@@ -1,7 +1,7 @@
-# Dart Web UI Code Lab
+# Dart Web UI Codelab
 
 This is a codelab to show you how to use Web Components and the Dart Web UI
-package. It's a continuation of the Google IO 2012 Dart Code Lab
+package. It's a continuation of the Google IO 2012 Dart Codelab
 (https://github.com/dart-lang/io-2012-dart-code-lab); you should do that
 codelab first.
 
