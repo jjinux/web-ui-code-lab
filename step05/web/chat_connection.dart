@@ -1,8 +1,8 @@
 library chat_connection;
 
 import 'dart:html';
-import 'dart:json';
-import 'dart:isolate' show Timer;
+import 'dart:json' as JSON;
+import 'dart:async' show Timer;
 import 'application.dart' as app;
 
 class ChatConnection {
