@@ -22,9 +22,9 @@
       import 'application.dart' as app;
 
       main() {
-        app.init();
+        app.init().then((_) => print("app ready")).catchError(print);
       }
     </script>
-    <script type="text/javascript" src="dart.js"></script>
+    <script type="text/javascript" src="packages/browser/dart.js"></script>
   </body>
 </html>

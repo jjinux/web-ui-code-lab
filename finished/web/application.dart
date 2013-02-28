@@ -1,23 +1,22 @@
 library application;
 
 import 'dart:html';
-import 'dart:async' show Timer;
+import 'dart:async';
 import 'package:web_ui/web_ui.dart';
 import 'chat_connection.dart';
-import 'out/chat_window.html.dart';
-import 'out/username_input.html.dart';
-import 'out/message_input.html.dart';
+import 'chat_window.dart';
+import 'username_input.dart';
+import 'message_input.dart';
 
 const connectionUrl = "ws://127.0.0.1:1337/ws";
 ChatConnection chatConnection;
-ChatWindowComponent chatWindow;
-UsernameInputComponent usernameInput;
-MessageInputComponent messageInput;
+@observable ChatWindowComponent chatWindow;
+@observable UsernameInputComponent usernameInput;
+@observable MessageInputComponent messageInput;
 
-init() {
+Future init() {
   // The Web Components aren't ready immediately in index.html's main.
-  new Timer(0, (timer) {
-    
+  return new Future.delayed(0, () {
     // xtag is how you get to the Dart object.
     chatWindow = query("#chat-window").xtag;
     usernameInput = query("#username-input").xtag;
@@ -25,7 +24,6 @@ init() {
 
     chatWindow.displayNotice("web component connected");
     chatConnection = new ChatConnection(connectionUrl);
-    
-    dispatch();
-  });   
+  })
+  .catchError((e) => print("Problem initing app: $e"));   
 }

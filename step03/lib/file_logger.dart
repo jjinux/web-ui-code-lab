@@ -6,15 +6,15 @@ import 'server_utils.dart';
 startLogging() {
   print('started logger');
   File logFile;
-  OutputStream out;
+  IOSink out;
   port.receive((msg, replyTo) {
     if (logFile == null) {
       print("Opening file $msg");
       logFile = new File(msg);
-      out = logFile.openOutputStream(FileMode.APPEND);
+      out = logFile.openWrite(FileMode.APPEND);
     } else {
       time('write to file', () {
-        out.writeString("${new Date.now()} : $msg\n");
+        out.addString("${new DateTime.now()} : $msg\n");
       });
     }
   });

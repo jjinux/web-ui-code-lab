@@ -2,5 +2,6 @@ name: dart_chat
 description: This is a chat app written in Dart using the Dart Web UI library
 
 dependencies:
-  web_ui: ">=0.3.0+1 <0.3.1"
+  web_ui: any
+  browser: any
   

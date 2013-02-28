@@ -41,16 +41,16 @@ class ChatConnection {
     scheduleReconnect() {
       app.chatWindow.displayNotice('web socket closed, retrying in $retrySeconds seconds');
       if (!encounteredError) {
-        new Timer(1000 * retrySeconds, (timer) => _init(retrySeconds * 2));
+        new Timer(new Duration(seconds:retrySeconds), () => _init(retrySeconds * 2));
       }
       encounteredError = true;
     }
 
-    webSocket.on.open.add((e) => app.chatWindow.displayNotice('web socket connected'));
-    webSocket.on.close.add((e) => scheduleReconnect());
-    webSocket.on.error.add((e) => scheduleReconnect());
+    webSocket.onOpen.listen((e) => app.chatWindow.displayNotice('web socket connected'));
+    webSocket.onClose.listen((e) => scheduleReconnect());
+    webSocket.onError.listen((e) => scheduleReconnect());
 
-    webSocket.on.message.add((MessageEvent e) {
+    webSocket.onMessage.listen((MessageEvent e) {
       print('received message ${e.data}');
       _receivedEncodedMessage(e.data);
     });
