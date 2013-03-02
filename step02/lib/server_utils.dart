@@ -3,14 +3,13 @@ library server_utils;
 import 'dart:async';
 
 time(msg, callback()) {
-  var sw = new Stopwatch();
-  sw.start();
+  var sw = new Stopwatch()..start();
   callback();
   sw.stop();
   print('Timing for $msg: ${sw.elapsedMicroseconds} us');
 }
 
-/// Run the callback on the event loop at the next opportunity.
-queue(callback()) {
-  new Timer(0, (t) => callback());
+// runs the callback on the event loop at the next opportunity
+Future queue(callback()) {
+  return new Future.delayed(0, callback);
 }

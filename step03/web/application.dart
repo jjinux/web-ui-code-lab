@@ -1,20 +1,19 @@
 library application;
 
 import 'dart:html';
-import 'dart:async' show Timer;
+import 'dart:async';
 import 'package:web_ui/web_ui.dart';
-import 'out/chat_window.html.dart';
+import 'chat_window.dart';
 
-ChatWindowComponent chatWindow;
+@observable ChatWindowComponent chatWindow;
 
-init() {
+Future init() {
   // The Web Components aren't ready immediately in index.html's main.
-  new Timer(0, (timer) {
+  return new Future.delayed(0, () {
     
     // xtag is how you get to the Dart object.
     chatWindow = query("#chat-window").xtag;
     chatWindow.displayNotice("web component connected");
-    
-    dispatch();
-  });   
+  })
+  .catchError((e) => print("Problem initing app: $e"));   
 }

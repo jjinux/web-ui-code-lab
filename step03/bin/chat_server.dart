@@ -2,6 +2,7 @@ library chatserver;
 
 import 'dart:io';
 import 'dart:isolate';
+import 'dart:async';
 import 'package:dart_chat/file_logger.dart' as log;
 import 'package:dart_chat/server_utils.dart';
 
@@ -12,47 +13,41 @@ class StaticFileHandler {
 
   _send404(HttpResponse response) {
     response.statusCode = HttpStatus.NOT_FOUND;
-    response.outputStream.close();
+    response.close();
   }
 
-  onRequest(HttpRequest request, HttpResponse response) {
-    final String path = request.path == '/' ? '/out/index.html' : request.path;
+  // TODO: etags, last-modified-since support
+  onRequest(HttpRequest request) {
+    final String path =
+        request.uri.path == '/' ? '/index.html' : request.uri.path;
     final File file = new File('${basePath}${path}');
-    file.exists().then((found) {
+    file.exists().then((bool found) {
       if (found) {
         file.fullPath().then((String fullPath) {
           if (!fullPath.startsWith(basePath)) {
-            _send404(response);
+            _send404(request.response);
           } else {
-            file.openInputStream().pipe(response.outputStream);
+            file.openRead().pipe(request.response)
+              .catchError((e) => print(e));
           }
         });
       } else {
-        _send404(response);
+        _send404(request.response);
       }
     });
   }
 }
 
 class ChatHandler {
+  Set<WebSocket> webSocketConnections = new Set<WebSocket>();
 
-  Set<WebSocketConnection> webSocketConnections;
-
-  ChatHandler({String basePath, String logFile}) :
-      webSocketConnections = new Set<WebSocketConnection>() {
+  ChatHandler(String basePath, String logFile) {
     log.initLogging(logFile);
   }
 
-  onOpen(WebSocketConnection conn) {
-    print('new ws conn');
-    webSocketConnections.add(conn);
-
-    conn.onClosed = (int status, String reason) {
-      print('conn is closed');
-      webSocketConnections.remove(conn);
-    };
-
-    conn.onMessage = (message) {
+  // closures!
+  onConnection(WebSocket conn) {
+    void onMessage(message) {
       print('new ws msg: $message');
       webSocketConnections.forEach((connection) {
         if (conn != connection) {
@@ -61,22 +56,45 @@ class ChatHandler {
         }
       });
       time('send to isolate', () => log.log(message));
-    };
+    }
+    
+    print('new ws conn');
+    webSocketConnections.add(conn);
+    conn.listen((event) {
+      if (event is MessageEvent) {
+        onMessage(event.data);
+      } else if (event is CloseEvent) {
+        print('conn is closed');
+        webSocketConnections.remove(conn);
+      }
+    },
+    onError: (error) => webSocketConnections.remove(conn),
+    onDone: () => webSocketConnections.remove(conn));
+
+
   }
 }
 
-runServer({String basePath,
-           String logFile,
-           int port}) {
-  HttpServer server = new HttpServer();
-  WebSocketHandler wsHandler = new WebSocketHandler();
-  wsHandler.onOpen = new ChatHandler(basePath: basePath, logFile: logFile).onOpen;
+runServer(String basePath, String logFile, {int port}) {
+  ChatHandler chatHandler = new ChatHandler(basePath, logFile);
+  StaticFileHandler fileHandler = new StaticFileHandler(basePath);
+  
+  HttpServer.bind('127.0.0.1', port)
+    .then((HttpServer server) {
+      print('listening for connections on $port');
+      
+      var sc = new StreamController();
+      sc.stream.transform(new WebSocketTransformer()).listen(chatHandler.onConnection);
 
-  server.defaultRequestHandler = new StaticFileHandler(basePath).onRequest;
-  server.addRequestHandler((req) => req.path == "/ws", wsHandler.onRequest);
-  server.onError = (error) => print(error);
-  server.listen('127.0.0.1', port);
-  print('listening for connections on $port');
+      server.listen((HttpRequest request) {
+        if (request.uri.path == '/ws') {
+          sc.add(request);
+        } else {
+          fileHandler.onRequest(request);
+        }
+      });
+    },
+    onError: (error) => print("Error starting HTTP server: $error"));
 }
 
 main() {
@@ -84,5 +102,5 @@ main() {
   var directory = script.directorySync();
   var basePath = directory.path.replaceFirst(new RegExp(r"bin$"), "web");  // No .. allowed
   var logFile = "${directory.path}/../chat.log";
-  runServer(basePath: basePath, logFile: logFile, port: 1337);
+  runServer(basePath, logFile, port: 1337);
 }

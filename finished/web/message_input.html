@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html><body>
+  <element name="x-message-input" constructor="MessageInputComponent" extends="div">
+    <template>
+      <div>
+          <label for="message">Message:</label>
+          <input id="message" class="chat-message" type="text"
+                 bind-value="message">
+          <button on-click="sendMessage()" 
+                  disabled="{{sendDisabled}}">Send</button>
+      </div>
+    </template>
+    
+    <script type="application/dart" src="message_input.dart"></script>
+  </element>
+</body></html>
